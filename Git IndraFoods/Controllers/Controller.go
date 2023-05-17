@@ -6,17 +6,128 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
+	"net/smtp"
 	"strconv"
+	"time"
 
 	b64 "encoding/base64"
 
+	"github.com/golang-jwt/jwt"
 	"github.com/gorilla/mux"
 )
 
 func Controller() {
 	d.DbConn()
 }
+
+// ------------------ Login API ----------------
+
+var jwtKey = []byte("InfobellItSolutions")
+
+func Login(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST,PUT,DELETE, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	var usr m.Users_Role
+	err := json.NewDecoder(r.Body).Decode(&usr)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		return
+	}
+
+	if usr.UserName == "" || usr.Password == "" {
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]string{"Status Code": "202", "Message": "Email/Password Can't be empty"})
+		return
+
+	}
+
+	checkUser := "SELECT user_name, password from USERS where user_name = $1"
+	rows, err := d.DB.Query(checkUser, usr.UserName)
+	fmt.Println(usr.UserName)
+	fmt.Println(usr.Password)
+	var email, pwd string
+	if err != nil {
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+	}
+	i := 0
+	for rows.Next() {
+		i++
+		rows.Scan(&email, &pwd)
+	}
+	if i == 0 {
+		json.NewEncoder(w).Encode(map[string]string{"Status Code": "202", "Message": "No User Found. Please Check Email and Password."})
+		return
+	}
+	DecPass := PasswordDecoder(pwd)
+	fmt.Println(pwd)
+	fmt.Println(DecPass)
+	if email == usr.UserName && DecPass == usr.Password {
+		//var role string
+		expirationTime := time.Now().Add(time.Minute * 15)
+		claims := &m.Claims{
+			UserName: email,
+			StandardClaims: jwt.StandardClaims{
+				ExpiresAt: expirationTime.Unix(),
+			},
+		}
+		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+		tokenString, err := token.SignedString(jwtKey)
+
+		if err != nil {
+			fmt.Println("Error in generating JWT Err : ", err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(map[string]string{"Message": "The server encountered an unexpected condition that prevented it from fulfilling the request", "Status Code": "500 "})
+
+			return
+		}
+
+		http.SetCookie(w, &http.Cookie{
+			Name:    "token",
+			Value:   tokenString,
+			Expires: expirationTime,
+		})
+
+		// username := strings.Split(usr.UserName, "@")
+		// json.NewEncoder(w).Encode(map[string]string{"Username": username[0], "Token": tokenString, "status": "200 OK", "Message": "Successfully Logged In"})
+
+		returnUser := "SELECT users.uid ,users.first_name, users.last_name, users.user_name, users.cid, role.role_name FROM users JOIN users_role ON users.uid = users_role.uid JOIN role ON role.rid = users_role.rid where user_name=$1;"
+		rows, err := d.DB.Query(returnUser, email)
+		if err != nil {
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		}
+		for rows.Next() {
+
+			rows.Scan(&usr.Uid, &usr.FirstName, &usr.LastName, &usr.UserName, &usr.Cid, &usr.Role)
+		}
+
+		var cname string
+		companyName := "Select cname from company_details where cid=$1"
+		rows, err = d.DB.Query(companyName, usr.Cid)
+		//fmt.Println(usr.Cid)
+		if err != nil {
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		}
+		for rows.Next() {
+			rows.Scan(&cname)
+		}
+		temp := map[string]interface{}{
+			"uid": usr.Uid, "user_name": usr.UserName, "FirstName": usr.FirstName, "LastName": usr.LastName, "CompanyName": cname, "Company ID ": usr.Cid, "Role": usr.Role,
+		}
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Successfully Logged In", "Token": tokenString, "Status Code": "200", "data": temp})
+		return
+	} else {
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(map[string]string{"Status Code": "401", "Message": "Invalid password"})
+	}
+}
+
+//json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Wrong Password", "Status Code": "202 "})
 
 //-----------------------------Add Company API--------------------------------------
 
@@ -56,33 +167,40 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST,PUT,DELETE, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
-	selectAllUsers := "SELECT users.first_name, users.last_name, users.user_name, users.isdeleted, role.role_name FROM users JOIN users_role ON users.uid = users_role.uid JOIN role ON role.rid = users_role.rid;"
+	isValidToken := VerifyToken(w, r)
+	fmt.Println(isValidToken)
+	if isValidToken {
+		selectAllUsers := "SELECT users.first_name, users.last_name, users.user_name, users.isdeleted, role.role_name FROM users JOIN users_role ON users.uid = users_role.uid JOIN role ON role.rid = users_role.rid;"
 
-	rows, err := d.DB.Query(selectAllUsers)
-	if err != nil {
-		log.Fatal(err)
-		fmt.Println(err)
-	}
-	var list []map[string]interface{}
-	for rows.Next() {
-		var first_name, last_name, user_name, role_name string
-		var isdeleted int
-		rows.Scan(&first_name, &last_name, &user_name, &isdeleted, &role_name)
-		if isdeleted == 0 {
-			temp := map[string]interface{}{
-				"FirstName": first_name, "LastName": last_name, "Email": user_name, "Role": role_name,
-			}
-			list = append(list, temp)
-			if err != nil {
-				w.WriteHeader(http.StatusAccepted)
-				json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
-				return
+		rows, err := d.DB.Query(selectAllUsers)
+		if err != nil {
+			log.Fatal(err)
+			fmt.Println(err)
+		}
+		var list []map[string]interface{}
+		for rows.Next() {
+			var first_name, last_name, user_name, role_name string
+			var isdeleted int
+			rows.Scan(&first_name, &last_name, &user_name, &isdeleted, &role_name)
+			if isdeleted == 0 {
+				temp := map[string]interface{}{
+					"FirstName": first_name, "LastName": last_name, "Email": user_name, "Role": role_name,
+				}
+				list = append(list, temp)
+				if err != nil {
+					w.WriteHeader(http.StatusAccepted)
+					json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+					return
+				}
+
 			}
 
 		}
-
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "success", "Status Code": "200 ", "data": list})
+	} else {
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Please Login First"})
 	}
-	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "success", "Status Code": "200 ", "data": list})
 }
 
 //---------------- Get User Based on Id API ----------------------
@@ -577,9 +695,105 @@ func ChangePass(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Password Updated Successfully !!!", "Status Code": "202 "})
 }
 
-// ------------------ Login API ----------------
+// ------------------- Forgot Password API ------------------
 
-func Login(w http.ResponseWriter, r *http.Request) {
+var OTP string
+var OTPExpiration time.Time
+
+func ForgotPassword(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST,PUT,DELETE, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	var usr m.Users_Role
+	var email string
+	err := json.NewDecoder(r.Body).Decode(&usr)
+	if err != nil {
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+	}
+	checkMail := "SELECT user_name from USERS WHERE user_name=$1;"
+
+	fmt.Println(usr.UserName)
+	rows, err := d.DB.Query(checkMail, usr.UserName)
+	if err != nil {
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		return
+	}
+	i := 0
+	for rows.Next() {
+		i++
+		rows.Scan(&email)
+	}
+	if i == 0 {
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "No Records Found With this Email", "Status Code": "202 "})
+		return
+	}
+
+	otp := strconv.Itoa(generateOTP()) // convert the integer OTP to a string
+	OTP = otp
+	fmt.Println(otp)
+	// Set OTP expiration time
+	err = sendOTP(email, otp)
+	if err != nil {
+		fmt.Println("Error sending OTP:", err)
+		return
+	}
+
+	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "success", "Status Code": "202 "})
+}
+
+func generateOTP() int {
+	rand.Seed(time.Now().UnixNano())
+	OTPExpiration = time.Now().Add(1 * time.Minute)
+	return rand.Intn(900000) + 100000 // generate a random 6-digit integer
+}
+
+func sendOTP(email, otp string) error {
+	auth := smtp.PlainAuth("", "msyed@infobellit.com", "cpadrodiolwdbdat", "smtp.gmail.com")
+
+	msg := []byte("To: " + email + "\r\n" +
+		"Subject: Forgot PassWord\r\n" +
+		"\r\n" +
+		"Your OTP is: " + otp + "\r\n")
+
+	err := smtp.SendMail("smtp.gmail.com:587", auth, "msyed@infobellit.com", []string{email}, msg)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func VerifyOTP(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST,PUT,DELETE, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	currentTime := time.Now()
+	var verifyotp m.Otp
+	err := json.NewDecoder(r.Body).Decode(&verifyotp)
+	if err != nil {
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		return
+	}
+
+	if currentTime.After(OTPExpiration) { // Check if OTP has expired
+		json.NewEncoder(w).Encode(map[string]string{"Message": "OTP expired"})
+		return
+	}
+
+	// id := r.URL.Query().Get("otp")
+
+	if verifyotp.Otp != OTP {
+		json.NewEncoder(w).Encode(map[string]string{"Message": "invalid otp"})
+	} else {
+		json.NewEncoder(w).Encode(map[string]string{"Message": "otp verified"})
+	}
+}
+
+func ResetPass(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST,PUT,DELETE, OPTIONS")
@@ -589,77 +803,22 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&usr)
 	if err != nil {
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
-	}
-
-	checkUser := "SELECT user_name, password from USERS where user_name = $1"
-	rows, err := d.DB.Query(checkUser, usr.UserName)
-	fmt.Println(usr.UserName)
-	fmt.Println(usr.Password)
-	var user_name, pwd string
-	if err != nil {
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
-	}
-	for rows.Next() {
-		rows.Scan(&user_name, &pwd)
-	}
-	DecPass := PasswordDecoder(pwd)
-	fmt.Println(pwd)
-	fmt.Println(DecPass)
-	if user_name == usr.UserName && DecPass == usr.Password {
-		//var role string
-		returnUser := "SELECT users.uid ,users.first_name, users.last_name, users.user_name, users.cid, role.role_name FROM users JOIN users_role ON users.uid = users_role.uid JOIN role ON role.rid = users_role.rid where user_name=$1;"
-		rows, err := d.DB.Query(returnUser, user_name)
-		if err != nil {
-			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
-		}
-		for rows.Next() {
-
-			rows.Scan(&usr.Uid, &usr.FirstName, &usr.LastName, &usr.UserName, &usr.Cid, &usr.Role)
-		}
-
-		var cname string
-		companyName := "Select cname from company_details where cid=$1"
-		rows, err = d.DB.Query(companyName, usr.Cid)
-		//fmt.Println(usr.Cid)
-		if err != nil {
-			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
-		}
-		for rows.Next() {
-			rows.Scan(&cname)
-		}
-		temp := map[string]interface{}{
-			"uid": usr.Uid, "user_name": usr.UserName, "FirstName": usr.FirstName, "LastName": usr.LastName, "CompanyName": cname, "Role": usr.Role,
-		}
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "success", "Status Code": "200", "data": temp})
 		return
 	}
-	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Wrong Password", "Status Code": "202 "})
-}
+	EncPass := PasswordEncoder(usr.Password)
 
-// ------------------- Forgot Password API ------------------
+	sqlStatement := `
+    UPDATE users
+    SET password = $1
+    WHERE user_name = $2`
 
-func ForgotPassword(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	var usr m.Users_Role
-	var email string
-	err := json.NewDecoder(r.Body).Decode(&usr)
+	_, err = d.DB.Exec(sqlStatement, EncPass, usr.UserName)
+
 	if err != nil {
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		fmt.Println(err)
+	} else {
+		json.NewEncoder(w).Encode(map[string]string{"Message": "password updated"})
 	}
-	checkMail := "SELECT user_name from USERS WHERE user_name=$1;"
-
-	rows, err := d.DB.Query(checkMail, usr.UserName)
-	if err != nil {
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
-	}
-	i := 0
-	for rows.Next() {
-		i++
-		rows.Scan(&email)
-	}
-	// if i != 0 {
-
-	// }
 }
 
 // Function For Password Encoding
@@ -678,4 +837,61 @@ func PasswordDecoder(password string) string {
 	}
 	fmt.Println(DecPass)
 	return string(DecPass)
+}
+
+func VerifyToken(w http.ResponseWriter, r *http.Request) bool {
+	cookie, err := r.Cookie("token")
+	if err != nil {
+		if err == http.ErrNoCookie {
+			w.WriteHeader(http.StatusUnauthorized)
+			return false
+		}
+		w.WriteHeader(http.StatusBadRequest)
+		return false
+	}
+	tokenStr := cookie.Value
+
+	claims := &m.Claims{}
+	tkn, err := jwt.ParseWithClaims(tokenStr, claims,
+		func(t *jwt.Token) (interface{}, error) {
+			return jwtKey, nil
+		})
+	if err != nil {
+		if err == jwt.ErrSignatureInvalid {
+			w.WriteHeader(http.StatusUnauthorized)
+			return false
+		}
+		w.WriteHeader(http.StatusBadRequest)
+		return false
+	}
+
+	if !tkn.Valid {
+		w.WriteHeader(http.StatusUnauthorized)
+		return false
+	}
+	// if time.Unix(claims.ExpiresAt, 0).Sub(time.Now()) > 30*time.Second {
+
+	// }
+
+	expirationTime := time.Now().Add(time.Minute * 5)
+
+	claims.ExpiresAt = expirationTime.Unix()
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString(jwtKey)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return false
+	}
+
+	http.SetCookie(w,
+		&http.Cookie{
+			Name:    "refresh_token",
+			Value:   tokenString,
+			Expires: expirationTime,
+		})
+
+	return true
+	// w.Write([]byte(fmt.Sprintf("Hello, %s", claims.Username)))
 }

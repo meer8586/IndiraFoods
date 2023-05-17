@@ -1,6 +1,10 @@
 package Model
 
-import "time"
+import (
+	"time"
+
+	"github.com/golang-jwt/jwt"
+)
 
 type DbConfig struct {
 	DBName   string `json:"dbname"`
@@ -50,4 +54,14 @@ type ChangePassword struct {
 	Uid     int    `json:"uid"`
 	OldPass string `json:"old_password"`
 	NewPass string `json:"new_password"`
+}
+
+type Claims struct {
+	UserName string `json:"username"`
+	jwt.StandardClaims
+}
+
+type Otp struct {
+	Email string `json:"email_id"`
+	Otp   string `json:"otp"`
 }

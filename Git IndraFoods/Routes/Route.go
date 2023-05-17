@@ -13,6 +13,8 @@ import (
 func WebService() {
 	myRouter := mux.NewRouter().StrictSlash(true)
 
+	myRouter.HandleFunc("/login", c.Login).Methods("POST")
+
 	myRouter.HandleFunc("/addcomp", c.AddCompany).Methods("POST")
 
 	myRouter.HandleFunc("/allusers", c.GetAllUsers).Methods("GET")
@@ -32,7 +34,10 @@ func WebService() {
 	myRouter.HandleFunc("/deleterepemailconfig/{eid}", c.DeleteReportEmailConfig).Methods("DELETE")
 
 	myRouter.HandleFunc("/changepass", c.ChangePass).Methods("PUT")
-	myRouter.HandleFunc("/login", c.Login).Methods("POST")
+
+	myRouter.HandleFunc("/forgotpassword", c.ForgotPassword).Methods("POST")
+	myRouter.HandleFunc("/verifyotp", c.VerifyOTP).Methods("POST")
+	myRouter.HandleFunc("/resetpass", c.ResetPass).Methods("PUT")
 
 	handler := cors.Default().Handler(myRouter)
 	log.Fatal(http.ListenAndServe(":8081", handler))
