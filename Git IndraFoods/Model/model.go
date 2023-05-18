@@ -1,6 +1,7 @@
 package Model
 
 import (
+	"mime/multipart"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -64,4 +65,10 @@ type Claims struct {
 type Otp struct {
 	Email string `json:"email_id"`
 	Otp   string `json:"otp"`
+}
+
+type StoreExcelFile struct {
+	FileName string         `form:"repname"`
+	FileDesc string         `form:"repdesc"`
+	File     multipart.File `form:"file"`
 }

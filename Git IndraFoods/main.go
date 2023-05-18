@@ -7,6 +7,7 @@ import (
 
 func main() {
 	c.Controller()
+	c.SendExcelFileViaEmail()
 	r.WebService()
-	
+
 }

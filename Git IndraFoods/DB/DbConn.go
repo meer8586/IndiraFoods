@@ -34,7 +34,8 @@ func DbConn() {
 	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		log.Fatal("Failed to connect to database: ", err)
+	} else {
+		fmt.Println("Database Connected Successfully !!!")
+		DB = db
 	}
-	fmt.Println("Database Connected Successfully !!!")
-	DB = db
 }

@@ -3,12 +3,16 @@ package Controllers
 import (
 	d "Foods/DB"
 	m "Foods/Model"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
 	"net/smtp"
+
+	"path/filepath"
 	"strconv"
 	"time"
 
@@ -16,6 +20,8 @@ import (
 
 	"github.com/golang-jwt/jwt"
 	"github.com/gorilla/mux"
+	"github.com/jasonlvhit/gocron"
+	"gopkg.in/gomail.v2"
 )
 
 func Controller() {
@@ -53,7 +59,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(usr.Password)
 	var email, pwd string
 	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		return
 	}
 	i := 0
 	for rows.Next() {
@@ -61,14 +69,15 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		rows.Scan(&email, &pwd)
 	}
 	if i == 0 {
-		json.NewEncoder(w).Encode(map[string]string{"Status Code": "202", "Message": "No User Found. Please Check Email and Password."})
+		//w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode(map[string]string{"Status Code": "202", "Message": "No User Found. Please Check Email and Password.", "Var": "true"})
 		return
 	}
 	DecPass := PasswordDecoder(pwd)
-	fmt.Println(pwd)
-	fmt.Println(DecPass)
+	// fmt.Println(pwd)
+	// fmt.Println(DecPass)
 	if email == usr.UserName && DecPass == usr.Password {
-		//var role string
+
 		expirationTime := time.Now().Add(time.Minute * 15)
 		claims := &m.Claims{
 			UserName: email,
@@ -99,10 +108,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		returnUser := "SELECT users.uid ,users.first_name, users.last_name, users.user_name, users.cid, role.role_name FROM users JOIN users_role ON users.uid = users_role.uid JOIN role ON role.rid = users_role.rid where user_name=$1;"
 		rows, err := d.DB.Query(returnUser, email)
 		if err != nil {
-			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+			w.WriteHeader(http.StatusAccepted)
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
+			return
 		}
 		for rows.Next() {
-
 			rows.Scan(&usr.Uid, &usr.FirstName, &usr.LastName, &usr.UserName, &usr.Cid, &usr.Role)
 		}
 
@@ -111,23 +121,24 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		rows, err = d.DB.Query(companyName, usr.Cid)
 		//fmt.Println(usr.Cid)
 		if err != nil {
-			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+			w.WriteHeader(http.StatusAccepted)
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
+			return
 		}
 		for rows.Next() {
 			rows.Scan(&cname)
 		}
 		temp := map[string]interface{}{
-			"uid": usr.Uid, "user_name": usr.UserName, "FirstName": usr.FirstName, "LastName": usr.LastName, "CompanyName": cname, "Company ID ": usr.Cid, "Role": usr.Role,
+			"uid": usr.Uid, "user_name": usr.UserName, "FirstName": usr.FirstName, "LastName": usr.LastName, "CompanyName": cname, "CompanyID": usr.Cid, "Role": usr.Role,
 		}
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Successfully Logged In", "Token": tokenString, "Status Code": "200", "data": temp})
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Successfully Logged In", "Token": tokenString, "data": temp})
 		return
 	} else {
-		w.WriteHeader(http.StatusUnauthorized)
-		json.NewEncoder(w).Encode(map[string]string{"Status Code": "401", "Message": "Invalid password"})
+		//w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(map[string]string{"Status Code": "401", "Message": "Invalid password", "Var": "true"})
 	}
 }
-
-//json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Wrong Password", "Status Code": "202 "})
 
 //-----------------------------Add Company API--------------------------------------
 
@@ -140,22 +151,22 @@ func AddCompany(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&cmp)
 	if err != nil {
 		fmt.Println(err)
-
-		json.NewEncoder(w).Encode(map[string]interface{}{"Status Code": "400 Bad Request", "Message": err})
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
 		return
 	}
 	insertCmp := "INSERT INTO COMPANY_DETAILS (cname, address, phno, panno, gstno, logo) VALUES($1,$2,$3,$4,$5,$6)"
 	_, err = d.DB.Exec(insertCmp, cmp.Cname, cmp.Address, cmp.Phno, cmp.Panno, cmp.Gstno, cmp.Logo)
 	if err != nil {
 		w.WriteHeader(http.StatusAccepted)
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Company Already Registered With this Name", "Status Code": "202 "})
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Company Already Registered With this Name", "Error": err})
 		fmt.Println(err)
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
 
-	json.NewEncoder(w).Encode(map[string]interface{}{"Status Code": "200", "Message": "Company Added Successfully !!!"})
+	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Company Added Successfully !!!"})
 }
 
 //------------------------------------- User's API ------------------------------
@@ -174,8 +185,10 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 
 		rows, err := d.DB.Query(selectAllUsers)
 		if err != nil {
-			log.Fatal(err)
 			fmt.Println(err)
+			w.WriteHeader(http.StatusAccepted)
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
+			return
 		}
 		var list []map[string]interface{}
 		for rows.Next() {
@@ -189,14 +202,15 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 				list = append(list, temp)
 				if err != nil {
 					w.WriteHeader(http.StatusAccepted)
-					json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+					json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
 					return
 				}
 
 			}
 
 		}
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "success", "Status Code": "200 ", "data": list})
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "success", "data": list})
 	} else {
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Please Login First"})
@@ -217,8 +231,10 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	var company_id int
 	rows, err := d.DB.Query(selectUser, user_id)
 	if err != nil {
-		log.Fatal(err)
 		fmt.Println(err)
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
+		return
 	}
 	i := 0
 	for rows.Next() {
@@ -235,23 +251,22 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 		}
 
 		temp := map[string]interface{}{
-			"FirstName": first_name, "LastName": last_name, "Phone No": phno, "User Name": username, "Company Name": company_name, "Role": role_name,
+			"FirstName": first_name, "LastName": last_name, "PhoneNo": phno, "UserName": username, "CompanyName": company_name, "Role": role_name,
 		}
 
 		if err != nil {
 			w.WriteHeader(http.StatusAccepted)
-			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+			json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
 			return
 		}
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "success", "Status Code": "200 ", "data": temp})
-
-		// } else {
-		// 	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "User With this id is not present", "Status Code": "200 "})
-		// }
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "success", "data": temp})
 
 	}
 	if i == 0 {
+		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "User With this id is not present", "Status Code": "200 "})
+		return
 	}
 
 }
@@ -268,7 +283,8 @@ func AddUser(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&usr)
 	if err != nil {
 		fmt.Println(err)
-		json.NewEncoder(w).Encode(map[string]interface{}{"Status Code": "400 Bad Request", "Message": err})
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
 		return
 	}
 	EncPass := PasswordEncoder(usr.Password)
@@ -277,7 +293,7 @@ func AddUser(w http.ResponseWriter, r *http.Request) {
 	_, err = d.DB.Exec(insertUser, usr.FirstName, usr.LastName, usr.PhNo, usr.UserName, EncPass, usr.Cid)
 	if err != nil {
 		w.WriteHeader(http.StatusAccepted)
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "User Already Registered With this user_name", "Status Code": "202 "})
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "User Already Registered With this user_name", "Error": err})
 		fmt.Println(err)
 		return
 	}
@@ -303,7 +319,10 @@ func AddUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(getrlid)
 	rows1, err := d.DB.Query(getrlid)
 	if err != nil {
-		log.Fatal(err)
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
+		fmt.Println(err)
+		return
 	}
 	for rows1.Next() {
 		rows1.Scan(&roleid)
@@ -315,13 +334,12 @@ func AddUser(w http.ResponseWriter, r *http.Request) {
 	_, err = d.DB.Exec(insertUser)
 	if err != nil {
 		w.WriteHeader(http.StatusAccepted)
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
 		fmt.Println(err)
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
-
 	json.NewEncoder(w).Encode(map[string]interface{}{"Status Code": "200", "Message": "success"})
 
 }
@@ -342,10 +360,10 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusAccepted)
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
 		return
 	}
-
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "User Deleted Successfully", "Status Code": "200 "})
 }
 
@@ -364,6 +382,10 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
 		log.Fatalln("There was an error decoding the request body into the struct")
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
+		fmt.Println(err)
+		return
 	}
 
 	//updateQuery := "UPDATE USERS SET first_name=$1 , last_name=$2, phno=$3, user_name=$4 where uid=$5"
@@ -371,7 +393,8 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(updateQuery)
 	_, err = d.DB.Exec(updateQuery)
 	if err != nil {
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
 		return
 	}
 	var roleid int
@@ -388,9 +411,12 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(updateRole)
 	_, err = d.DB.Exec(updateRole)
 	if err != nil {
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
+		fmt.Println(err)
 		return
 	}
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "User Record Updated Successfully !", "Status Code": "200 "})
 
 }
@@ -413,7 +439,10 @@ func GetAllReports(w http.ResponseWriter, r *http.Request) {
 	selectReports := "Select * from report where cid=$1;"
 	rows, err := d.DB.Query(selectReports, company_id)
 	if err != nil {
-		log.Fatal(err)
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
+		fmt.Println(err)
+		return
 	}
 	rep := m.Reports{}
 	for rows.Next() {
@@ -424,10 +453,11 @@ func GetAllReports(w http.ResponseWriter, r *http.Request) {
 	}
 	if err != nil {
 		w.WriteHeader(http.StatusAccepted)
-		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
+		fmt.Println(err)
 		return
 	}
-
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "success", "Status Code": "200 ", "data": list})
 }
 
@@ -447,20 +477,22 @@ func GetReport(w http.ResponseWriter, r *http.Request) {
 	selectReports := "SELECT * from report where cid = $1 and rep_name=$2;"
 	rows, err := d.DB.Query(selectReports, company_id, repname)
 	if err != nil {
-		log.Fatal(err)
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
+		fmt.Println(err)
+		return
 	}
 	rep := m.Reports{}
 	for rows.Next() {
-
 		rows.Scan(&rep.RepId, &rep.RepName, &rep.RepDesc, &rep.DailyRuntime, &rep.CreatedAt, &rep.Location, &rep.Cid)
 		list = append(list, rep)
-
 	}
 	if err != nil {
 		w.WriteHeader(http.StatusAccepted)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
 		return
 	}
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "success", "Status Code": "200 ", "data": list})
 
 }
@@ -475,8 +507,9 @@ func AddReport(w http.ResponseWriter, r *http.Request) {
 	var usr m.Reports
 	err := json.NewDecoder(r.Body).Decode(&usr)
 	if err != nil {
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
 		fmt.Println(err)
-		json.NewEncoder(w).Encode(map[string]interface{}{"Status Code": "400 Bad Request", "Message": err})
 		return
 	}
 
@@ -488,6 +521,7 @@ func AddReport(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Report Added Successfully !", "Status Code": "200 "})
 }
 
@@ -505,8 +539,10 @@ func GetReportEmailConfig(w http.ResponseWriter, r *http.Request) {
 	selectAllReportEmailConfig := "SELECT * from report_email_config where isdeleted=0;"
 	rows, err := d.DB.Query(selectAllReportEmailConfig)
 	if err != nil {
-		log.Fatal(err)
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
 		fmt.Println(err)
+		return
 	}
 	var list []map[string]interface{}
 	i := 0
@@ -521,14 +557,17 @@ func GetReportEmailConfig(w http.ResponseWriter, r *http.Request) {
 		list = append(list, temp)
 	}
 	if i == 0 {
+		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "No Records Found", "Status Code": "202 "})
 		return
 	}
 	if err != nil {
 		w.WriteHeader(http.StatusAccepted)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		fmt.Println(err)
 		return
 	}
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "success", "Status Code": "200 ", "data": list})
 
 }
@@ -548,8 +587,10 @@ func GetReportEmailConfigById(w http.ResponseWriter, r *http.Request) {
 	rows, err := d.DB.Query(selectReportEmailConfig)
 
 	if err != nil {
-		log.Fatal(err)
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
 		fmt.Println(err)
+		return
 	}
 	var temp m.AddReportEmailConfig
 	i := 0
@@ -560,14 +601,17 @@ func GetReportEmailConfigById(w http.ResponseWriter, r *http.Request) {
 
 	}
 	if i == 0 {
+		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "No Rows Returned", "Status Code": "202 "})
 		return
 	}
 	if err != nil {
 		w.WriteHeader(http.StatusAccepted)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		fmt.Println(err)
 		return
 	}
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "success", "Status Code": "200 ", "data": temp})
 }
 
@@ -582,8 +626,9 @@ func AddReportEmailConfig(w http.ResponseWriter, r *http.Request) {
 	var repemail m.AddReportEmailConfig
 	err := json.NewDecoder(r.Body).Decode(&repemail)
 	if err != nil {
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
 		fmt.Println(err)
-		json.NewEncoder(w).Encode(map[string]interface{}{"Status Code": "400 Bad Request", "Message": err})
 		return
 	}
 	insertReportEmailConfig := "INSERT INTO report_email_config (email, rep_name, daily_time) VALUES($1,$2,$3)"
@@ -594,7 +639,7 @@ func AddReportEmailConfig(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]interface{}{"Status Code": "200", "Message": "success"})
 }
 
@@ -613,6 +658,10 @@ func UpdateReportEmailConfig(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&repEmail)
 	if err != nil {
 		log.Fatalln("There was an error decoding the request body into the struct")
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		fmt.Println(err)
+		return
 	}
 
 	//updateQuery := "UPDATE USERS SET first_name=$1 , last_name=$2, phno=$3, user_name=$4 where uid=$5"
@@ -620,10 +669,12 @@ func UpdateReportEmailConfig(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(updateQuery)
 	_, err = d.DB.Exec(updateQuery)
 	if err != nil {
+		w.WriteHeader(http.StatusAccepted)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		fmt.Println(err)
 		return
 	}
-
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Record Updated Successfully !!!", "Status Code": "200 "})
 
 }
@@ -646,9 +697,10 @@ func DeleteReportEmailConfig(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusAccepted)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		fmt.Println(err)
 		return
 	}
-
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Deleted Successfully", "Status Code": "200 "})
 }
 
@@ -665,12 +717,18 @@ func ChangePass(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
 		log.Fatalln("There was an error decoding the request body into the struct", err)
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		fmt.Println(err)
+		return
 	}
 
 	changePass := "SELECT password from USERS WHERE uid = $1"
 	rows, err := d.DB.Query(changePass, data.Uid)
 	if err != nil {
+		w.WriteHeader(http.StatusAccepted)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		fmt.Println(err)
 		return
 	}
 	for rows.Next() {
@@ -681,6 +739,7 @@ func ChangePass(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(pass)
 	fmt.Println(pass2)
 	if pass2 != data.OldPass {
+		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Invalid Old Password", "Status Code": "202 "})
 		return
 	}
@@ -688,10 +747,12 @@ func ChangePass(w http.ResponseWriter, r *http.Request) {
 	changePass2 := "UPDATE USERS SET PASSWORD=$1 WHERE UID=$2"
 	_, err = d.DB.Exec(changePass2, EncPass, data.Uid)
 	if err != nil {
+		w.WriteHeader(http.StatusAccepted)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		fmt.Println(err)
 		return
 	}
-
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "Password Updated Successfully !!!", "Status Code": "202 "})
 }
 
@@ -710,14 +771,19 @@ func ForgotPassword(w http.ResponseWriter, r *http.Request) {
 	var email string
 	err := json.NewDecoder(r.Body).Decode(&usr)
 	if err != nil {
+		w.WriteHeader(http.StatusAccepted)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		fmt.Println(err)
+		return
 	}
 	checkMail := "SELECT user_name from USERS WHERE user_name=$1;"
 
 	fmt.Println(usr.UserName)
 	rows, err := d.DB.Query(checkMail, usr.UserName)
 	if err != nil {
+		w.WriteHeader(http.StatusAccepted)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		fmt.Println(err)
 		return
 	}
 	i := 0
@@ -726,6 +792,7 @@ func ForgotPassword(w http.ResponseWriter, r *http.Request) {
 		rows.Scan(&email)
 	}
 	if i == 0 {
+		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": "No Records Found With this Email", "Status Code": "202 "})
 		return
 	}
@@ -737,10 +804,13 @@ func ForgotPassword(w http.ResponseWriter, r *http.Request) {
 	err = sendOTP(email, otp)
 	if err != nil {
 		fmt.Println("Error sending OTP:", err)
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		fmt.Println(err)
 		return
 	}
-
-	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "success", "Status Code": "202 "})
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]interface{}{"Message": "success", "Status Code": "200 "})
 }
 
 func generateOTP() int {
@@ -775,7 +845,9 @@ func VerifyOTP(w http.ResponseWriter, r *http.Request) {
 	var verifyotp m.Otp
 	err := json.NewDecoder(r.Body).Decode(&verifyotp)
 	if err != nil {
+		w.WriteHeader(http.StatusAccepted)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		fmt.Println(err)
 		return
 	}
 
@@ -802,7 +874,9 @@ func ResetPass(w http.ResponseWriter, r *http.Request) {
 	var usr m.Users_Role
 	err := json.NewDecoder(r.Body).Decode(&usr)
 	if err != nil {
+		w.WriteHeader(http.StatusAccepted)
 		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		fmt.Println(err)
 		return
 	}
 	EncPass := PasswordEncoder(usr.Password)
@@ -815,11 +889,193 @@ func ResetPass(w http.ResponseWriter, r *http.Request) {
 	_, err = d.DB.Exec(sqlStatement, EncPass, usr.UserName)
 
 	if err != nil {
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
 		fmt.Println(err)
+		return
 	} else {
+		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(map[string]string{"Message": "password updated"})
 	}
 }
+
+func StoreReport(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST,PUT,DELETE, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	vars := mux.Vars(r)
+	cid, _ := strconv.Atoi(vars["cid"])
+	//fmt.Println("hii")
+	var sf m.StoreExcelFile
+	//err := json.NewDecoder(r.Body).Decode(&sf)
+	err := r.ParseMultipartForm(32 << 20)
+
+	if err != nil {
+		http.Error(w, "Failed to retrieve file from form data", http.StatusBadRequest)
+		return
+	}
+
+	sf.FileName = r.FormValue("repname")
+	sf.FileDesc = r.FormValue("repdesc")
+	sf.File, _, _ = r.FormFile("file")
+
+	if err != nil {
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("hii")
+	filePath, err := saveExcelFile(sf)
+	fmt.Println("after hii")
+	if err != nil {
+		fmt.Println(err)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err, "Status Code": "202 "})
+
+		return
+	}
+
+	// Store the file path in PostgreSQL
+	query := "INSERT INTO REPORT (rep_name, rep_desc, location, cid) VALUES ($1,$2,$3,$4)"
+	_, err = d.DB.Exec(query, sf.FileName, sf.FileDesc, filePath, cid)
+	fmt.Println(filePath)
+	fmt.Println("hii")
+	if err != nil {
+		w.WriteHeader(http.StatusAccepted)
+		json.NewEncoder(w).Encode(map[string]interface{}{"Message": err})
+		fmt.Println(err)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{"Message": "Report Added Successfully"})
+
+}
+
+func saveExcelFile(sf m.StoreExcelFile) (string, error) {
+	//fmt.Println("hii")
+	// Generate a unique filename
+	todaystime := time.Now().Format("2006-01-02")
+	filename := sf.FileName + "_" + todaystime + ".xlsx"
+
+	// Define the destination path on the file server
+	destPath := filepath.Join("./Reports", filename)
+	fmt.Println(filename)
+	fmt.Println("Hii")
+	// Read the contents of the file
+	fileBytes, err := ioutil.ReadAll(sf.File)
+	if err != nil {
+		fmt.Println("in read")
+		return "", err
+	}
+	fmt.Println("file bytes hii")
+
+	// Write the file to the file server
+	err = ioutil.WriteFile(destPath, fileBytes, 0644)
+	if err != nil {
+		fmt.Println(err)
+		fmt.Println("hii")
+		return "", err
+	}
+	fmt.Println("Report added successfully")
+	fmt.Println(destPath)
+	return destPath, nil
+}
+
+func SendExcelFileViaEmail() {
+	query := "SELECT DAILY_TIME FROM report_email_config"
+	rows, err := d.DB.Query(query)
+	if err != nil {
+		log.Fatal(err)
+		fmt.Println(err)
+	}
+	var daily_time, emailid, repname, location string
+	var parsedTime time.Time
+	todaystime := time.Now().Format("2006-01-02")
+	for rows.Next() {
+		rows.Scan(&daily_time)
+		parsedTime, err = time.Parse("3:04 PM", daily_time)
+		if err != nil {
+			fmt.Println("Invalid input time:", err)
+			return
+		}
+		outputTime := parsedTime.Format("15:04")
+		fmt.Println("Converted time:", outputTime)
+
+		query2 := "SELECT email, rep_name FROM report_email_config where daily_time=$1;"
+		rows, err := d.DB.Query(query2, daily_time)
+		if err != nil {
+			log.Fatal(err)
+			fmt.Println(err)
+		}
+		for rows.Next() {
+			rows.Scan(&emailid, &repname)
+		}
+		fmt.Println(emailid)
+		query3 := "SELECT location FROM report where rep_name=$1 and created_at=$2;"
+		rows, err = d.DB.Query(query3, repname, todaystime)
+		if err != nil {
+			log.Fatal(err)
+			fmt.Println(err)
+		}
+		for rows.Next() {
+			rows.Scan(&location)
+		}
+		fmt.Println(repname)
+		fmt.Println(location)
+		fmt.Println(todaystime)
+		s := gocron.NewScheduler()
+		s.Every(1).Day().At(outputTime).Do(func() {
+			fmt.Println("hii")
+			m := gomail.NewMessage()
+			m.SetHeader("From", "msyed@infobellit.com")
+			m.SetHeader("To", emailid)
+			m.SetHeader("Subject", "Daily Report")
+			//m.SetBody("text/html", "Hello <b>Bob</b> and <i>Cora</i>!")
+			m.Attach(location)
+
+			d := gomail.NewDialer("smtp.gmail.com", 587, "msyed@infobellit.com", "cpadrodiolwdbdat")
+			d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
+
+			if err := d.DialAndSend(m); err != nil {
+				fmt.Print(err)
+				panic(err)
+
+			} else {
+				fmt.Print("sent")
+			}
+		})
+		<-s.Start()
+	}
+
+}
+
+// func sendMail(emailid, repname, location string) {
+// 	auth := smtp.PlainAuth("", "msyed@infobellit.com", "cpadrodiolwdbdat", "smtp.gmail.com")
+// 	msg := []byte("To: " + emailid + "\r\n" +
+// 		"Subject: Report\r\n" +
+// 		"MIME-version: 1.0;\nContent-Type: multipart/mixed; boundary=\"boundary\"\r\n" +
+// 		"\r\n" +
+// 		"--boundary\r\n" +
+// 		"Content-Type: text/plain; charset=\"UTF-8\"\r\n" +
+// 		"\r\n" +
+// 		"Today's Report is attached with this mail \r\n" +
+// 		"\r\n" +
+// 		"--boundary\r\n" +
+// 		"Content-Type: application/octet-stream\r\n" +
+// 		"Content-Disposition: attachment; filename=" + location + "\r\n" +
+// 		"\r\n" +
+// 		"Attachment content here\r\n" +
+// 		"\r\n" +
+// 		"--boundary--")
+
+// 	err := smtp.SendMail("smtp.gmail.com:587", auth, "msyed@infobellit.com", []string{emailid}, msg)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 		fmt.Println(err)
+// 	}
+// }
 
 // Function For Password Encoding
 func PasswordEncoder(password string) string {

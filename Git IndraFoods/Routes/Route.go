@@ -26,6 +26,7 @@ func WebService() {
 	myRouter.HandleFunc("/getreports/{cid}", c.GetAllReports).Methods("GET")
 	myRouter.HandleFunc("/getreport/{cid}/{repname}", c.GetReport).Methods("GET")
 	myRouter.HandleFunc("/addreport", c.AddReport).Methods("POST")
+	myRouter.HandleFunc("/savereport/{cid}", c.StoreReport).Methods("POST")
 
 	myRouter.HandleFunc("/getrepemailconfig", c.GetReportEmailConfig).Methods("GET")
 	myRouter.HandleFunc("/getrepemailconfigbyid/{eid}", c.GetReportEmailConfigById).Methods("GET")
