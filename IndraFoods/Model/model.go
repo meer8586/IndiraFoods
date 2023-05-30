@@ -1,6 +1,7 @@
 package Model
 
 import (
+	"mime/multipart"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -44,10 +45,20 @@ type Reports struct {
 	Cid          int       `json:"cid"`
 }
 
+type StoreExcelFile struct {
+	FileName string         `form:"repname"`
+	FileDesc string         `form:"repdesc"`
+	File     multipart.File `form:"file"`
+}
+
 type AddReportEmailConfig struct {
+	Eid        int    `json:"eid"`
 	ReportName string `json:"rep_name"`
 	RepEmail   string `json:"rep_email"`
 	DailyTime  string `json:"daily_time"`
+	IsDeleted  int    `json:"isdeleted"`
+	RepSend    int    `json:"rep_send"`
+	Cid        int    `json:"cid"`
 }
 
 type ChangePassword struct {
