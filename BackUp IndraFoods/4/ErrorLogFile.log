@@ -1,0 +1,278 @@
+ERROR :2023/05/24 11:07:59 Controller.go:162: Invalid Password
+ERROR :2023/05/24 11:08:32 Controller.go:95: No User Found. Please Check Email OR Password
+ERROR :2023/05/24 11:10:52 Controller.go:245: Please Login First
+ERROR :2023/05/25 11:24:17 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:24:17 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:24:34 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:24:34 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:24:51 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:24:51 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:24:53 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:24:53 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:25:08 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:25:08 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:36:02 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:36:02 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:36:46 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:36:46 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:39:06 Controller.go:95: No User Found. Please Check Email OR Password
+ERROR :2023/05/25 11:39:38 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:39:47 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:39:51 Controller.go:672: Please Login First
+ERROR :2023/05/25 11:39:53 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:39:53 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:41:07 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:41:07 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:41:10 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:41:10 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:41:13 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:41:13 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:41:17 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:41:17 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:41:21 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:41:21 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:41:32 Controller.go:453: Please Login First
+ERROR :2023/05/25 11:41:38 Controller.go:453: Please Login First
+ERROR :2023/05/25 11:41:44 Controller.go:453: Please Login First
+ERROR :2023/05/25 11:41:48 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:41:48 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:41:56 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:41:56 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:41:59 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:41:59 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:42:05 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:42:05 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:42:08 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:42:08 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:42:21 Controller.go:453: Please Login First
+ERROR :2023/05/25 11:44:21 Controller.go:453: Please Login First
+ERROR :2023/05/25 11:45:02 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:45:02 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:45:31 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:45:31 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:47:42 Controller.go:672: Please Login First
+ERROR :2023/05/25 11:48:33 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:48:33 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:48:39 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:48:39 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:50:34 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:50:34 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:56:05 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:56:05 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:56:20 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:56:20 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:56:36 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:56:36 Controller.go:254: Please Login First
+ERROR :2023/05/25 11:58:23 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 11:58:23 Controller.go:254: Please Login First
+ERROR :2023/05/25 12:02:14 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 12:02:14 Controller.go:254: Please Login First
+ERROR :2023/05/25 12:03:08 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 12:03:08 Controller.go:254: Please Login First
+ERROR :2023/05/25 12:03:54 Controller.go:672: Please Login First
+ERROR :2023/05/25 12:06:36 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 12:06:36 Controller.go:254: Please Login First
+ERROR :2023/05/25 12:09:57 Controller.go:672: Please Login First
+ERROR :2023/05/25 12:10:39 Controller.go:672: Please Login First
+ERROR :2023/05/25 12:11:59 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:12:50 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:13:13 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:13:18 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:13:24 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:13:35 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:13:48 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:13:52 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:13:54 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:14:05 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:15:06 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:15:44 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:15:58 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:16:00 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:16:04 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:16:08 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:16:11 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:16:13 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:16:31 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:17:31 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:17:40 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:17:55 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:18:06 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:18:26 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:20:05 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:20:26 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:20:35 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:20:46 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:20:52 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:20:59 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:21:05 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:21:22 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:21:26 Controller.go:94: No User Found. Please Check Email OR Password
+ERROR :2023/05/25 12:21:35 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:21:42 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:22:07 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:22:13 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:22:15 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:23:01 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:23:11 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:23:26 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:23:34 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:23:48 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:23:57 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:24:00 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:24:35 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:24:54 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:25:36 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:25:38 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:25:48 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:26:09 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:26:13 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:26:16 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:26:17 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:27:15 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:28:16 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:28:30 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:28:32 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:28:34 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:28:39 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:29:39 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:29:54 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:30:09 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:30:11 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:30:13 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:30:20 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:30:21 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:30:24 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:30:38 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:30:51 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:30:52 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:30:58 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:32:05 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:32:06 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:32:09 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:32:11 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:32:13 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:32:15 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:32:15 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:32:16 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:32:27 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:32:37 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:36:47 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:36:54 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:36:56 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:37:04 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:37:05 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:37:06 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:37:09 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:39:54 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:39:56 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:40:03 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:40:43 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:40:50 Controller.go:253: Please Login First
+ERROR :2023/05/25 12:42:06 Controller.go:671: Please Login First
+ERROR :2023/05/25 12:42:59 Controller.go:254: Please Login First
+ERROR :2023/05/25 12:43:06 Controller.go:254: Please Login First
+ERROR :2023/05/25 12:43:10 Controller.go:672: Please Login First
+ERROR :2023/05/25 12:43:13 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 12:43:13 Controller.go:254: Please Login First
+ERROR :2023/05/25 12:43:14 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 12:43:14 Controller.go:254: Please Login First
+ERROR :2023/05/25 12:43:16 Controller.go:1541: Invalid Token
+ERROR :2023/05/25 12:43:16 Controller.go:254: Please Login First
+ERROR :2023/05/25 12:51:22 Controller.go:644: No Reports Found
+ERROR :2023/05/25 14:17:48 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:18:20 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:18:41 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:20:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:21:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:22:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:23:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:24:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:24:53 Controller.go:95: No User Found. Please Check Email OR Password
+ERROR :2023/05/25 14:25:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:26:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:27:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:28:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:29:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:30:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:30:48 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:30:48 Controller.go:644: No Reports Found
+ERROR :2023/05/25 14:31:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:32:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:33:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:34:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:34:29 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:34:31 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:35:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:36:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:36:33 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:36:33 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:37:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:37:10 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:37:19 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:37:20 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:37:30 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:37:31 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:37:32 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:37:33 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:37:34 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:37:35 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:38:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:39:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:40:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:41:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:42:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:43:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:44:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:44:55 Controller.go:1377: Please Login First
+ERROR :2023/05/25 14:45:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:45:07 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:45:10 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:45:12 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:45:17 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:45:18 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 14:46:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:47:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:48:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:49:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:50:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:50:11 Controller.go:315: User With this id is not present
+ERROR :2023/05/25 14:51:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:52:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:53:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:54:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:55:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:56:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:57:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:58:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 14:59:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 15:00:00 Controller.go:1500: No Reports Found 
+ERROR :2023/05/25 15:05:03 Controller.go:1486: gomail: could not send email 1: open Reports\DODReport_2023-05-25.xlsx: The system cannot find the file specified.
+ERROR :2023/05/25 15:13:26 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 15:17:44 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 15:17:44 Controller.go:644: No Reports Found
+ERROR :2023/05/25 15:20:42 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 15:20:47 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 15:20:48 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 15:20:49 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 15:20:55 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 15:25:39 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 15:25:39 Controller.go:644: No Reports Found
+ERROR :2023/05/25 15:25:42 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 15:25:43 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 15:42:35 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 15:42:35 Controller.go:644: No Reports Found
+ERROR :2023/05/25 15:42:38 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 15:42:41 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 15:42:48 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 17:19:25 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 17:19:25 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 17:45:53 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 17:45:54 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 17:45:56 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 17:54:14 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 17:54:18 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 17:54:19 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 17:54:22 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 17:54:22 Controller.go:644: No Reports Found
+ERROR :2023/05/25 17:54:30 Controller.go:1543: Invalid Token
+ERROR :2023/05/25 17:54:30 Controller.go:644: No Reports Found

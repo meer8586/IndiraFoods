@@ -1,0 +1,111 @@
+ERROR :2023/05/24 11:07:59 Controller.go:162: Invalid Password
+ERROR :2023/05/24 11:08:32 Controller.go:95: No User Found. Please Check Email OR Password
+ERROR :2023/05/24 11:10:52 Controller.go:245: Please Login First
+ERROR :2023/05/25 10:13:47 Controller.go:672: Please Login First
+ERROR :2023/05/25 10:13:54 Controller.go:672: Please Login First
+ERROR :2023/05/25 10:14:10 Controller.go:672: Please Login First
+ERROR :2023/05/25 12:30:03 Controller.go:213: Please Login First
+ERROR :2023/05/25 12:30:19 Controller.go:213: Please Login First
+ERROR :2023/05/25 12:36:47 Controller.go:189: pq: duplicate key value violates unique constraint "company_details_cname_key"
+ERROR :2023/05/25 14:06:04 Controller.go:206: pq: invalid input syntax for type integer: "Here No Need Of Company ID"
+ERROR :2023/05/25 14:08:35 Controller.go:206: pq: insert or update on table "audit_log" violates foreign key constraint "fk_companydetails_cid"
+ERROR :2023/05/25 14:14:40 Controller.go:366: User Already Registered With this user_namepq: duplicate key value violates unique constraint "users_user_name_key"
+ERROR :2023/05/25 14:14:47 Controller.go:430: pq: value too long for type character varying(50)
+ERROR :2023/05/25 14:20:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:21:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:22:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:23:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:23:56 Controller.go:366: User Already Registered With this user_namepq: insert or update on table "users" violates foreign key constraint "fk_companydetails_cid"
+ERROR :2023/05/25 14:24:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:25:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:25:01 Controller.go:94: No User Found. Please Check Email OR Password
+ERROR :2023/05/25 14:26:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:27:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:27:31 Controller.go:206: pq: insert or update on table "audit_log" violates foreign key constraint "audit_log_cid_fkey"
+ERROR :2023/05/25 14:28:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:29:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:30:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:31:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:32:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:33:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:34:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:35:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:35:06 Controller.go:159: Invalid Password
+ERROR :2023/05/25 14:36:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:37:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:38:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:39:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:40:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:41:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:42:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:42:17 Controller.go:206: pq: insert or update on table "audit_log" violates foreign key constraint "audit_log_cid_fkey"
+ERROR :2023/05/25 14:43:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:44:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:45:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:46:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:47:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:48:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:49:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:50:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:51:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:52:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:53:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:54:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:55:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:56:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:57:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:58:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:59:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:59:13 Controller.go:900: No Records Found
+ERROR :2023/05/25 14:59:33 Controller.go:981: No Records Found
+ERROR :2023/05/25 15:00:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 15:42:03 Controller.go:1421: OTP Expired
+ERROR :2023/05/26 10:37:36 users.go:267: User With this id is not present
+ERROR :2023/05/26 14:20:23 users.go:222: Please Login First
+ERROR :2023/05/26 14:24:38 users.go:288: Please Login First
+ERROR :2023/05/26 14:25:05 users.go:288: Please Login First
+ERROR :2023/05/26 14:25:36 users.go:288: Please Login First
+ERROR :2023/05/26 14:25:42 users.go:288: Please Login First
+ERROR :2023/05/26 14:26:14 users.go:39: Email/Password Can't be empty
+ERROR :2023/05/26 14:26:15 users.go:288: Please Login First
+ERROR :2023/05/26 14:26:30 users.go:288: Please Login First
+ERROR :2023/05/26 14:28:17 users.go:32: EOF
+ERROR :2023/05/26 14:28:27 users.go:288: Please Login First
+ERROR :2023/05/26 14:28:48 users.go:288: Please Login First
+ERROR :2023/05/26 14:29:27 users.go:288: Please Login First
+ERROR :2023/05/26 14:29:56 users.go:288: Please Login First
+ERROR :2023/05/26 14:36:25 users.go:293: Please Login First
+ERROR :2023/05/26 14:36:56 users.go:293: Please Login First
+ERROR :2023/05/26 14:38:56 users.go:293: Please Login First
+ERROR :2023/05/26 14:39:21 users.go:293: Please Login First
+ERROR :2023/05/26 14:40:14 users.go:293: Please Login First
+ERROR :2023/05/26 14:44:08 users.go:293: Please Login First
+ERROR :2023/05/26 14:45:03 users.go:293: Please Login First
+ERROR :2023/05/26 14:45:34 users.go:293: Please Login First
+ERROR :2023/05/26 14:46:33 users.go:293: Please Login First
+ERROR :2023/05/26 14:47:45 users.go:293: Please Login First
+ERROR :2023/05/26 14:47:59 users.go:293: Please Login First
+ERROR :2023/05/26 14:50:20 users.go:294: Please Login First
+ERROR :2023/05/26 14:50:36 users.go:294: Please Login First
+ERROR :2023/05/26 14:52:26 users.go:294: Please Login First
+ERROR :2023/05/26 15:11:33 users.go:295: Please Login First
+ERROR :2023/05/26 15:31:17 users.go:229: Please Login First
+ERROR :2023/05/26 15:39:48 users.go:65: No User Found. Please Check Email OR Password
+ERROR :2023/05/26 15:39:51 users.go:65: No User Found. Please Check Email OR Password
+ERROR :2023/05/26 15:39:53 users.go:65: No User Found. Please Check Email OR Password
+ERROR :2023/05/26 15:39:54 users.go:65: No User Found. Please Check Email OR Password
+ERROR :2023/05/26 15:44:19 reports.go:95: Please Login First
+ERROR :2023/05/26 17:07:47 users.go:65: No User Found. Please Check Email OR Password
+ERROR :2023/05/29 10:02:12 users.go:65: No User Found. Please Check Email OR Password
+ERROR :2023/05/29 10:03:17 users.go:65: No User Found. Please Check Email OR Password
+ERROR :2023/05/29 11:40:18 users.go:229: Please Login First
+ERROR :2023/05/29 11:40:40 users.go:65: No User Found. Please Check Email OR Password
+ERROR :2023/05/29 11:41:29 users.go:229: Please Login First
+ERROR :2023/05/29 11:41:33 users.go:229: Please Login First
+ERROR :2023/05/29 11:41:45 reports.go:168: Please Login First
+ERROR :2023/05/29 11:50:30 reports.go:363: token contains an invalid number of segments
+ERROR :2023/05/29 12:12:45 users.go:444: token contains an invalid number of segments
+ERROR :2023/05/29 12:13:00 users.go:444: token contains an invalid number of segments
+ERROR :2023/05/29 12:13:01 users.go:427: No User Found
+ERROR :2023/05/29 12:13:01 users.go:427: No User Found
+ERROR :2023/05/29 12:13:54 users.go:289: User With this id is not present
