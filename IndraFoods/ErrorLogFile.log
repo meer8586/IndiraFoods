@@ -1,0 +1,219 @@
+ERROR :2023/05/24 11:07:59 Controller.go:162: Invalid Password
+ERROR :2023/05/24 11:08:32 Controller.go:95: No User Found. Please Check Email OR Password
+ERROR :2023/05/24 11:10:52 Controller.go:245: Please Login First
+ERROR :2023/05/25 10:13:47 Controller.go:672: Please Login First
+ERROR :2023/05/25 10:13:54 Controller.go:672: Please Login First
+ERROR :2023/05/25 10:14:10 Controller.go:672: Please Login First
+ERROR :2023/05/25 12:30:03 Controller.go:213: Please Login First
+ERROR :2023/05/25 12:30:19 Controller.go:213: Please Login First
+ERROR :2023/05/25 12:36:47 Controller.go:189: pq: duplicate key value violates unique constraint "company_details_cname_key"
+ERROR :2023/05/25 14:06:04 Controller.go:206: pq: invalid input syntax for type integer: "Here No Need Of Company ID"
+ERROR :2023/05/25 14:08:35 Controller.go:206: pq: insert or update on table "audit_log" violates foreign key constraint "fk_companydetails_cid"
+ERROR :2023/05/25 14:14:40 Controller.go:366: User Already Registered With this user_namepq: duplicate key value violates unique constraint "users_user_name_key"
+ERROR :2023/05/25 14:14:47 Controller.go:430: pq: value too long for type character varying(50)
+ERROR :2023/05/25 14:20:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:21:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:22:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:23:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:23:56 Controller.go:366: User Already Registered With this user_namepq: insert or update on table "users" violates foreign key constraint "fk_companydetails_cid"
+ERROR :2023/05/25 14:24:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:25:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:25:01 Controller.go:94: No User Found. Please Check Email OR Password
+ERROR :2023/05/25 14:26:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:27:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:27:31 Controller.go:206: pq: insert or update on table "audit_log" violates foreign key constraint "audit_log_cid_fkey"
+ERROR :2023/05/25 14:28:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:29:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:30:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:31:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:32:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:33:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:34:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:35:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:35:06 Controller.go:159: Invalid Password
+ERROR :2023/05/25 14:36:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:37:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:38:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:39:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:40:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:41:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:42:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:42:17 Controller.go:206: pq: insert or update on table "audit_log" violates foreign key constraint "audit_log_cid_fkey"
+ERROR :2023/05/25 14:43:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:44:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:45:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:46:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:47:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:48:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:49:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:50:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:51:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:52:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:53:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:54:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:55:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:56:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:57:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:58:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:59:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 14:59:13 Controller.go:900: No Records Found
+ERROR :2023/05/25 14:59:33 Controller.go:981: No Records Found
+ERROR :2023/05/25 15:00:00 Controller.go:1699: No Reports Found 
+ERROR :2023/05/25 15:42:03 Controller.go:1421: OTP Expired
+ERROR :2023/05/26 10:37:36 users.go:267: User With this id is not present
+ERROR :2023/05/26 14:20:23 users.go:222: Please Login First
+ERROR :2023/05/26 14:24:38 users.go:288: Please Login First
+ERROR :2023/05/26 14:25:05 users.go:288: Please Login First
+ERROR :2023/05/26 14:25:36 users.go:288: Please Login First
+ERROR :2023/05/26 14:25:42 users.go:288: Please Login First
+ERROR :2023/05/26 14:26:14 users.go:39: Email/Password Can't be empty
+ERROR :2023/05/26 14:26:15 users.go:288: Please Login First
+ERROR :2023/05/26 14:26:30 users.go:288: Please Login First
+ERROR :2023/05/26 14:28:17 users.go:32: EOF
+ERROR :2023/05/26 14:28:27 users.go:288: Please Login First
+ERROR :2023/05/26 14:28:48 users.go:288: Please Login First
+ERROR :2023/05/26 14:29:27 users.go:288: Please Login First
+ERROR :2023/05/26 14:29:56 users.go:288: Please Login First
+ERROR :2023/05/26 14:36:25 users.go:293: Please Login First
+ERROR :2023/05/26 14:36:56 users.go:293: Please Login First
+ERROR :2023/05/26 14:38:56 users.go:293: Please Login First
+ERROR :2023/05/26 14:39:21 users.go:293: Please Login First
+ERROR :2023/05/26 14:40:14 users.go:293: Please Login First
+ERROR :2023/05/26 14:44:08 users.go:293: Please Login First
+ERROR :2023/05/26 14:45:03 users.go:293: Please Login First
+ERROR :2023/05/26 14:45:34 users.go:293: Please Login First
+ERROR :2023/05/26 14:46:33 users.go:293: Please Login First
+ERROR :2023/05/26 14:47:45 users.go:293: Please Login First
+ERROR :2023/05/26 14:47:59 users.go:293: Please Login First
+ERROR :2023/05/26 14:50:20 users.go:294: Please Login First
+ERROR :2023/05/26 14:50:36 users.go:294: Please Login First
+ERROR :2023/05/26 14:52:26 users.go:294: Please Login First
+ERROR :2023/05/26 15:32:03 users.go:229: Please Login First
+ERROR :2023/05/26 15:45:58 reports.go:102: Currently No Reports Are Present For The Company.
+ERROR :2023/05/26 16:17:00 report_email_config.go:109: Please Login First
+ERROR :2023/05/29 12:30:19 users.go:296: Please Login First
+ERROR :2023/05/29 12:31:55 users.go:231: Please Login First
+ERROR :2023/05/29 12:31:55 users.go:231: Please Login First
+ERROR :2023/05/29 12:32:12 users.go:231: Please Login First
+ERROR :2023/05/29 12:32:38 users.go:231: Please Login First
+ERROR :2023/05/29 12:32:39 users.go:231: Please Login First
+ERROR :2023/05/29 12:32:40 users.go:231: Please Login First
+ERROR :2023/05/29 12:32:59 users.go:231: Please Login First
+ERROR :2023/05/29 12:33:20 reports.go:161: No Reports Found
+ERROR :2023/05/29 12:33:46 users.go:231: Please Login First
+ERROR :2023/05/29 12:43:17 users.go:446: token contains an invalid number of segments
+ERROR :2023/05/29 14:22:28 users.go:446: token contains an invalid number of segments
+ERROR :2023/05/29 14:28:35 users.go:446: token contains an invalid number of segments
+ERROR :2023/05/29 14:36:22 users.go:384: token contains an invalid number of segments
+ERROR :2023/05/29 14:36:48 users.go:384: token contains an invalid number of segments
+ERROR :2023/05/29 14:37:10 users.go:384: token contains an invalid number of segments
+ERROR :2023/05/29 14:37:46 users.go:384: token contains an invalid number of segments
+ERROR :2023/05/29 14:38:17 users.go:384: token contains an invalid number of segments
+ERROR :2023/05/29 14:38:34 users.go:384: token contains an invalid number of segments
+ERROR :2023/05/29 14:38:51 users.go:384: token contains an invalid number of segments
+ERROR :2023/05/29 14:52:48 reports.go:161: No Reports Found
+ERROR :2023/05/29 14:52:54 reports.go:161: No Reports Found
+ERROR :2023/05/29 14:53:13 reports.go:161: No Reports Found
+ERROR :2023/05/29 15:01:20 reports.go:297: open Reports\OfftakeReport_2023-05-29.xlsx: The system cannot find the file specified.
+ERROR :2023/05/29 15:01:20 reports.go:307: token contains an invalid number of segments
+ERROR :2023/05/29 15:02:38 reports.go:307: token contains an invalid number of segments
+ERROR :2023/05/29 15:03:37 reports.go:297: open Reports\OfftakeReport_2023-05-29.xlsx: The system cannot find the file specified.
+ERROR :2023/05/29 15:03:37 reports.go:307: token contains an invalid number of segments
+ERROR :2023/05/29 15:04:03 reports.go:297: open Reports\OfftakeReport_2023-05-29.xlsx: The system cannot find the file specified.
+ERROR :2023/05/29 15:04:03 reports.go:307: token contains an invalid number of segments
+ERROR :2023/05/29 15:04:11 reports.go:307: token contains an invalid number of segments
+ERROR :2023/05/29 15:10:08 reports.go:281: pq: got 1 parameters but the statement requires 2
+ERROR :2023/05/29 15:10:52 reports.go:309: token contains an invalid number of segments
+ERROR :2023/05/29 15:18:10 reports.go:309: token contains an invalid number of segments
+ERROR :2023/05/29 15:22:57 reports.go:299: open Reports\OfftakeReport_2023-05-29.xlsx: The system cannot find the file specified.
+ERROR :2023/05/29 15:22:57 reports.go:309: token contains an invalid number of segments
+ERROR :2023/05/29 15:23:06 reports.go:299: open Reports\OfftakeReport_2023-05-29.xlsx: The system cannot find the file specified.
+ERROR :2023/05/29 15:23:06 reports.go:309: token contains an invalid number of segments
+ERROR :2023/05/29 15:23:12 reports.go:309: token contains an invalid number of segments
+ERROR :2023/05/29 15:24:09 reports.go:309: token contains an invalid number of segments
+ERROR :2023/05/29 15:24:22 reports.go:309: token contains an invalid number of segments
+ERROR :2023/05/29 15:24:44 reports.go:309: token contains an invalid number of segments
+ERROR :2023/05/29 15:25:44 reports.go:309: token contains an invalid number of segments
+ERROR :2023/05/29 15:29:28 reports.go:309: token contains an invalid number of segments
+ERROR :2023/05/29 15:29:54 reports.go:309: token contains an invalid number of segments
+ERROR :2023/05/29 15:30:06 reports.go:299: open Reports\OfftakeReport_2023-05-29.xlsx: The system cannot find the file specified.
+ERROR :2023/05/29 15:30:06 reports.go:309: token contains an invalid number of segments
+ERROR :2023/05/29 15:32:57 reports.go:161: No Reports Found
+ERROR :2023/05/29 15:32:59 reports.go:161: No Reports Found
+ERROR :2023/05/29 15:33:00 reports.go:161: No Reports Found
+ERROR :2023/05/29 15:33:02 reports.go:161: No Reports Found
+ERROR :2023/05/29 15:33:03 reports.go:161: No Reports Found
+ERROR :2023/05/29 15:33:04 reports.go:161: No Reports Found
+ERROR :2023/05/29 15:33:05 reports.go:161: No Reports Found
+ERROR :2023/05/29 15:33:05 reports.go:161: No Reports Found
+ERROR :2023/05/29 15:33:07 reports.go:161: No Reports Found
+ERROR :2023/05/29 15:43:07 reports.go:388: token contains an invalid number of segments
+ERROR :2023/05/29 15:44:54 reports.go:388: token contains an invalid number of segments
+ERROR :2023/05/29 15:45:40 reports.go:388: token contains an invalid number of segments
+ERROR :2023/05/29 15:46:42 reports.go:388: token contains an invalid number of segments
+ERROR :2023/05/29 15:47:33 reports.go:388: token contains an invalid number of segments
+ERROR :2023/05/29 15:48:20 reports.go:388: token contains an invalid number of segments
+ERROR :2023/05/29 15:49:06 reports.go:388: token contains an invalid number of segments
+ERROR :2023/05/29 15:49:54 reports.go:388: token contains an invalid number of segments
+ERROR :2023/05/29 15:53:14 reports.go:311: token contains an invalid number of segments
+ERROR :2023/05/29 15:53:25 reports.go:311: token contains an invalid number of segments
+ERROR :2023/05/29 15:53:45 reports.go:311: token contains an invalid number of segments
+ERROR :2023/05/29 15:53:50 reports.go:311: token contains an invalid number of segments
+ERROR :2023/05/29 15:54:11 reports.go:311: token contains an invalid number of segments
+ERROR :2023/05/29 15:54:25 reports.go:311: token contains an invalid number of segments
+ERROR :2023/05/29 15:56:41 reports.go:390: token contains an invalid number of segments
+ERROR :2023/05/29 15:57:13 reports.go:311: token contains an invalid number of segments
+ERROR :2023/05/29 15:57:24 reports.go:311: token contains an invalid number of segments
+ERROR :2023/05/29 15:57:49 reports.go:294: No Reports Found
+ERROR :2023/05/29 15:58:03 reports.go:294: No Reports Found
+ERROR :2023/05/29 15:58:11 reports.go:294: No Reports Found
+ERROR :2023/05/29 15:58:41 reports.go:311: token contains an invalid number of segments
+ERROR :2023/05/29 15:59:04 reports.go:311: token contains an invalid number of segments
+ERROR :2023/05/29 16:02:05 reports.go:163: No Reports Found
+ERROR :2023/05/29 16:02:10 reports.go:390: token contains an invalid number of segments
+ERROR :2023/05/29 16:03:31 reports.go:390: token contains an invalid number of segments
+ERROR :2023/05/29 16:04:00 reports.go:163: No Reports Found
+ERROR :2023/05/29 16:04:43 reports.go:163: No Reports Found
+ERROR :2023/05/29 16:05:13 reports.go:311: token contains an invalid number of segments
+ERROR :2023/05/29 16:05:30 reports.go:311: token contains an invalid number of segments
+ERROR :2023/05/29 16:05:47 reports.go:311: token contains an invalid number of segments
+ERROR :2023/05/29 16:24:26 reports.go:195: pq: syntax error at or near "="
+ERROR :2023/05/29 16:25:31 reports.go:195: pq: syntax error at or near "="
+ERROR :2023/05/29 16:35:59 reports.go:173: No Reports Found
+ERROR :2023/05/29 16:39:05 reports.go:173: No Reports Found
+ERROR :2023/05/29 16:39:08 reports.go:173: No Reports Found
+ERROR :2023/05/29 16:39:27 reports.go:173: No Reports Found
+ERROR :2023/05/29 16:40:16 reports.go:173: No Reports Found
+ERROR :2023/05/29 16:40:59 reports.go:173: No Reports Found
+ERROR :2023/05/29 16:53:17 reports.go:173: No Reports Found
+ERROR :2023/05/29 17:08:29 reports.go:334: token contains an invalid number of segments
+ERROR :2023/05/29 17:09:49 reports.go:334: token contains an invalid number of segments
+ERROR :2023/05/29 17:10:47 reports.go:334: token contains an invalid number of segments
+ERROR :2023/05/29 17:11:50 reports.go:334: token contains an invalid number of segments
+ERROR :2023/05/29 17:12:19 reports.go:173: No Reports Found
+ERROR :2023/05/29 17:12:21 reports.go:173: No Reports Found
+ERROR :2023/05/29 17:12:27 reports.go:173: No Reports Found
+ERROR :2023/05/29 17:15:12 reports.go:334: token contains an invalid number of segments
+ERROR :2023/05/29 17:15:22 reports.go:334: token contains an invalid number of segments
+ERROR :2023/05/29 17:15:25 reports.go:334: token contains an invalid number of segments
+ERROR :2023/05/29 17:15:33 reports.go:334: token contains an invalid number of segments
+ERROR :2023/05/29 17:16:06 users.go:66: No User Found. Please Check Email OR Password
+ERROR :2023/05/29 17:16:07 reports.go:334: token contains an invalid number of segments
+ERROR :2023/05/29 17:16:11 users.go:66: No User Found. Please Check Email OR Password
+ERROR :2023/05/29 17:16:21 reports.go:334: token contains an invalid number of segments
+ERROR :2023/05/29 17:16:34 reports.go:334: token contains an invalid number of segments
+ERROR :2023/05/29 17:17:12 reports.go:334: token contains an invalid number of segments
+ERROR :2023/05/29 17:17:27 reports.go:334: token contains an invalid number of segments
+ERROR :2023/05/29 17:17:39 reports.go:334: token contains an invalid number of segments
+ERROR :2023/05/29 17:19:15 reports.go:334: token contains an invalid number of segments
+ERROR :2023/05/29 17:20:35 reports.go:173: No Reports Found
+ERROR :2023/05/29 17:20:37 reports.go:173: No Reports Found
+ERROR :2023/05/29 17:20:59 reports.go:173: No Reports Found
+ERROR :2023/05/29 17:21:10 reports.go:173: No Reports Found
+ERROR :2023/05/29 17:21:35 reports.go:173: No Reports Found
+ERROR :2023/05/29 17:21:36 reports.go:173: No Reports Found
+ERROR :2023/05/29 17:21:38 reports.go:173: No Reports Found
+ERROR :2023/05/29 17:21:40 reports.go:173: No Reports Found
+ERROR :2023/05/29 17:21:46 reports.go:173: No Reports Found
+ERROR :2023/05/29 17:22:44 reports.go:334: token contains an invalid number of segments
+ERROR :2023/05/29 17:30:37 reports.go:334: token contains an invalid number of segments
